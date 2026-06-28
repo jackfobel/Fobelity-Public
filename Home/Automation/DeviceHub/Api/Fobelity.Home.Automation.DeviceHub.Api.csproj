@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>90ab6591-bc9f-48d7-80f4-3ed1d06e3d9f</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..\..\..</DockerfileContext>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.8" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.8" />
+    <PackageReference Include="Microsoft.Identity.Web" Version="3.11.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.22.1" />
+    <PackageReference Include="OpenTelemetry.Api" Version="1.16.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="9.0.4" />
+    <PackageReference Include="System.Private.Uri" Version="4.3.2" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.9" />
+    <PackageReference Include="System.Text.Json" Version="10.0.9" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\ServiceDefaults\Fobelity.Home.ServiceDefaults.csproj" />
+    <ProjectReference Include="..\..\Adapters\Seam\Fobelity.Home.Automation.Adapters.Seam.csproj" />
+    <ProjectReference Include="..\..\Adapters\Tuya\Fobelity.Home.Automation.Adapters.Tuya.csproj" />
+    <ProjectReference Include="..\..\CrossCutting\Observability\Fobelity.Home.Automation.Observability.csproj" />
+    <ProjectReference Include="..\..\CrossCutting\Security\Fobelity.Home.Automation.Security.csproj" />
+    <ProjectReference Include="..\..\Services\Lights.Service\Fobelity.Home.Automation.Lights.Service.csproj" />
+    <ProjectReference Include="..\Core\Fobelity.Home.Automation.DeviceHub.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
+</Project>

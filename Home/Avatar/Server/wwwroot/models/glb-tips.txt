@@ -1,0 +1,45 @@
+68e471fd44b37dfaa5a9e49c.glb
+https://models.readyplayer.me/68e471fd44b37dfaa5a9e49c.glb?morphTargets=ARKit
+
+&textureAtlas=1024 (or 2048) 		to bake textures into one atlas
+&meshLod=0 				(highest mesh LOD)
+quality=low|medium|high			preset bundles for LOD + textures. You can still override individual params below
+lod=0|1|2				global triangle reduction (0 = full detail). Prefer this over meshLod (deprecated).
+textureSizeLimit=256|512|1024		caps the max resolution of any texture (default 1024). Must be a power-of-two
+textureAtlas=none|256|512|1024		merges materials into an atlas (1–2 draw calls). Great for WebGL perf. none disables.
+textureFormat=png|webp 			choose output texture format (WebP is smaller if your pipeline’s ok with it).
+
+textureChannels=baseColor,normal,metallicRoughness,emissive,occlusion|none
+		include only what you need.
+pose=A|T				full-body only (A is default). Handy if you plan to re-rig / retarget.
+useDracoMeshCompression=true|false	reduces GLB size with Draco (you’ll need DRACOLoader, which you already wired).
+useMeshOptCompression=true|false 	reduces size using Meshopt (great for avatars with morphs; you already include MeshoptDecoder).
+useHands=true|false			half-body VR avatars only.
+
+1) High-quality lipsync + efficient draw calls (good default for your app)
+.../<id>.glb?lod=0&textureAtlas=1024&textureFormat=webp&useMeshOptCompression=true&morphTargets=ARKit,Oculus%20Visemes
+
+2) Ultra-light for lists / many avatars on screen
+.../<id>.glb?quality=low&lod=2&textureAtlas=512&textureFormat=webp&morphTargets=none
+
+3) Debugging face shapes (keep original materials, max detail)
+.../<id>.glb?lod=0&textureAtlas=none&textureSizeLimit=1024&morphTargets=ARKit
+
+Tips:
+-Prefer Meshopt compression for viseme-heavy models; it typically shines with morph targets.
+-Add morphTargets=ARKit,Oculus Visemes (gives you both a rich face rig and the classic viseme set; your code will pick the closest match automatically.)
+-textureAtlas (merges materials; that’s good for performance and won’t remove morph targets. It may slightly change the node/material structure, 
+	but you’re traversing meshes robustly, so you’re fine.)
+
+Too high quality/large
+https://models.readyplayer.me/68e471fd44b37dfaa5a9e49c.glb?morphTargets=ARKit&useMeshOptCompression=true&morphTargets=ARKit,Oculus&textureAtlas=2048
+
+Pi-friendly
+https://models.readyplayer.me/68e471fd44b37dfaa5a9e49c.glb?lod=1&textureAtlas=1024&textureSizeLimit=1024&textureFormat=webp&useMeshOptCompression=true&morphTargets=ARKit
+
+If you want snappier lips, bump DECAY to 0.12–0.15.
+For “smiley” delivery, add tiny mouthSmileLeft/Right: 0.15 into the vowel maps.
+If any viseme feels too round/flat, tweak its weights—these are safe defaults.
+
+https://www.mixamo.com/#/
+

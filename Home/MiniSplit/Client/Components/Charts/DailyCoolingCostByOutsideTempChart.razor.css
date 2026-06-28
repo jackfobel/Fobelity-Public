@@ -1,0 +1,6 @@
+.chat-message-wrapper .mud-chart {
+  background-color: #121212; /* matches chat background */
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}

@@ -1,0 +1,119 @@
+@model Guid
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local WebGL Avatar + Azure TTS (visemes)</title>
+
+  <style>
+    html, body {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: #0f1115; /* back to the dark/black background */
+      color: #e9eef5; /* optional: keep text readable on dark bg */
+    }
+
+    /* Give the header a predictable height (or reduce its margins) */
+    h1 {
+      margin: 8px 12px;
+    }
+
+    /* Make the main grid consume the remaining viewport height */
+    .layout {
+      height: calc(100vh - 48px); /* adjust 48px to match your h1 height */
+    }
+
+    /* Let stage take full available height */
+    .stage {
+      min-height: 0; /* important: remove the 680px floor */
+      height: 100%;
+    }
+
+    /* Put the canvas in a "fit height" mode */
+    #avatarCanvas {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto; /* important: stop forcing height from width */
+    }
+
+    /* Optional: allow sidebar to scroll instead of the page */
+    .sidebar {
+      overflow: auto;
+    }
+
+  </style>
+</head>
+<body>
+  @* <h1>Local WebGL Avatar + Azure TTS (visemes)</h1> *@
+  <input type="hidden" id="clientId" value="@Model.ToString()" />
+
+  <div class="layout" style="grid-template-columns: 1fr;">
+    <!-- LEFT: stage -->
+    <div class="stage">
+      <canvas id="avatarCanvas"></canvas>
+      @* <div id="modelInfo" class="muted small" style="margin-top:6px;">&nbsp;</div>
+      <div class="tip muted small">tip: drag to orbit � wheel to zoom � dbl-click to center</div> *@
+      <!-- HUD injected by JS -->
+    </div>
+
+    <!-- RIGHT: sidebar -->
+    <div class="sidebar" style="display:none;">
+
+      <div class="card">
+        <h3>TTS</h3>
+        <label>Voice</label>
+        <input id="ttsVoice" value="en-US-JennyNeural" />
+        <br /><br />
+        <textarea id="ttsText">Hey! This is your local .glb avatar speaking with viseme-driven lips.</textarea>
+        <br />
+        <div class="row">
+          <button id="btnSpeak">Speak</button>
+          <button id="btnStop" class="btn-ghost" disabled>Stop</button>
+        </div>
+        <div id="log"></div>
+      </div>
+
+      <div class="card">
+        <h3>Animation</h3>
+        <div class="row">
+          <select id="animSelect"></select>
+          <button id="btnAnimPlay">Play</button>
+          <button id="btnAnimOnce" class="btn-ghost">Play once</button>
+          <button id="btnAnimStop" class="btn-ghost">Stop</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>View</h3>
+        <label class="small muted">Background image URL (optional)</label>
+        <input id="bgUrl" placeholder="https://� or /textures/bg.jpg" />
+        <div class="row" style="margin-top:8px;">
+          <input id="bgFile" type="file" accept="image/*" />
+          <button id="btnBgSet">Set background</button>
+          <button id="btnBgClear" class="btn-ghost">Clear</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <details open>
+          <summary>Detected morph targets</summary>
+          <pre id="morphDump"></pre>
+        </details>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Speech SDK (global) -->
+  
+  <!-- Loader that injects the import map and imports the ES module -->
+  <script src="~/js/webgl-avatar.importmap.js"></script>
+  
+</body>
+</html>

@@ -1,0 +1,116 @@
+@page "/chatter"
+@using Fobelity.Home.MiniSplit.Domain.Chart.Models
+@using Fobelity.Home.MiniSplit.Domain.Chat
+@using Fobelity.Home.MiniSplit.Client.Components.Charts
+
+@attribute [Authorize(Roles = "MiniSplit.UserAccess")]
+
+@rendermode InteractiveWebAssembly
+@* @inject NavigationManager Navigation *@
+
+<PageTitle>Chatter</PageTitle>
+
+@code {
+  private List<DailyChartData> ChartData => DailySummaryData ?? new();
+}
+
+<MudPaper Class="d-flex flex-column p-4" Style="height: 85vh;">
+
+  <!-- Chat Bubble Scroll Area -->
+  <MudPaper Class="chat-history overflow-auto mb-4" Style="flex-grow: 1;" Elevation="1">
+    <div class="chat-message-wrapper" @ref="messageList">
+      @foreach (var msg in messages.OrderBy(m => m.Timestamp))
+      {
+        var parsed = ChatMessageParser.Parse(msg.Message);
+
+        <div class="@GetCssClass(msg)">
+
+          @if (parsed.IsTable)
+          {
+            foreach (var table in parsed.Tables)
+            {
+              <MudTable Items="table" T="KeyValuePair<string, string>" Dense="true" Class="mb-4">
+                <HeaderContent>
+                  <MudTh>Setting</MudTh>
+                  <MudTh>Value</MudTh>
+                </HeaderContent>
+                <RowTemplate>
+                  <MudTd DataLabel="Setting">@context.Key</MudTd>
+                  <MudTd DataLabel="Value">@context.Value</MudTd>
+                </RowTemplate>
+              </MudTable>
+            }
+          }
+
+          @if (!string.IsNullOrWhiteSpace(parsed.RawText))
+          {
+            if (msg.IsBot)
+            {
+              <MudText Class="mt-4 mb-2" Typography="Typography.h6" Align="Align.Left">
+                @parsed.RawText
+              </MudText>
+            }
+            else
+            {
+              <div class="mt-2">@parsed.RawText</div>
+            }
+          }
+
+
+
+          @* INLINE CHART INSERTED FOR THIS MESSAGE *@
+          @if (ShouldRenderChart && msg.Id == ChartTriggerMessageId)
+          {
+            @if (ChartData.Count < 4)
+            {
+              <MudText Class="mt-2" Color="Color.Secondary">
+                Not enough data to generate a chart.
+              </MudText>
+            }
+            else
+            {
+              <MudText Class="mt-4 mb-2" Typography="Typography.subtitle2" Align="Align.Left">
+                Daily Cooling Cost by Outside Temp
+              </MudText>
+
+              <MudPaper Class="p-4 mt-2" Elevation="3">
+                <DailyCoolingCostByOutsideTempChart ChartData="ChartData" />
+              </MudPaper>
+            }
+          }
+
+        </div>
+      }
+    </div>
+  </MudPaper>
+
+  <!-- Input Row (MudGrid version) -->
+  <MudGrid Class="chat-input align-center">
+
+    <MudItem xs="12" md="3">
+      <MudTextField Value="@CurrentUser?.Identity?.Name"
+                    Dense="true"
+                    ReadOnly="true"
+                    Disabled="true"
+                    FullWidth="false" />
+    </MudItem>
+
+    <MudItem xs="12" md="7">
+      <MudTextField @bind-Value="messageInput"
+                    @ref="messageInputComponent"
+                    Placeholder="Message"
+                    Dense="true"
+                    FullWidth="false"
+                    OnKeyDown="HandleKeyDown" />
+    </MudItem>
+
+    <MudItem xs="12" md="2">
+      <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                 Disabled="@(!IsConnected)"
+                 OnClick="Send" FullWidth="true">
+        Send
+      </MudButton>
+    </MudItem>
+  </MudGrid>
+
+</MudPaper>

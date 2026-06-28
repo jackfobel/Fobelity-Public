@@ -1,0 +1,152 @@
+@using DomainModels.Device.Models
+@using Microsoft.AspNetCore.Components.WebAssembly.Hosting
+@using Microsoft.AspNetCore.Http.Connections
+@using Microsoft.AspNetCore.SignalR.Client
+@using System.Net
+@inject NavigationManager Navigation
+
+@inject NavigationManager Navigation
+@inject IWebAssemblyHostEnvironment HostEnvironment
+
+
+@if (!IsConnected)
+{
+  <MudText Typo="Typo.caption" Color="Color.Secondary">[STATUS]</MudText>
+}
+else if (MiniSplitStatus is null)
+{
+  <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+}
+else
+{
+@*   
+    var textColor = MiniSplitStatus?.Switch == true ? "#43a047" : "#9e9e9e";
+  
+  <MudText Typo="Typo.subtitle2" Style=$"color:{textColor}">
+    @FormatStatus()
+  </MudText> *@
+
+
+
+  <MudText Typo="Typo.subtitle2">
+    @FormatStatus()
+  </MudText>
+}
+
+
+
+@code {
+  private HubConnection? hubConnection;
+  private DeviceStatus? MiniSplitStatus;
+  private bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+  private string? errorMessage;
+
+
+
+  protected override async Task OnInitializedAsync()
+  {
+    // var hubUrl = HostEnvironment.IsDevelopment()
+    //     ? "https://localhost:5101/minisplitHub"
+    //     : "https://YOUR-MINISPLIT-APP.example.com/minisplitHub";
+
+    // hubConnection = new HubConnectionBuilder()
+    //     .WithUrl(hubUrl, options =>
+    //     {
+    //       options.Transports = HttpTransportType.WebSockets;
+    //       options.SkipNegotiation = true;
+
+    //       if (!OperatingSystem.IsBrowser())
+    //       {
+    //         options.Cookies = new CookieContainer();
+    //       }
+    //     })
+    //     .WithAutomaticReconnect()
+    //     .Build();
+
+    hubConnection = new HubConnectionBuilder()
+      .WithUrl(Navigation.ToAbsoluteUri("/unifiedhub"))
+      .WithAutomaticReconnect()
+      .Build();
+
+    // 🔔 Register SignalR handlers BEFORE StartAsync
+    hubConnection.On<DeviceStatus>("MiniSplitReceiveStatusUpdate", status =>
+    {
+      Console.WriteLine($"✅ Received update: {status.Mode} at {status.TempCurrentF}");
+      MiniSplitStatus = status;
+      StateHasChanged();
+    });
+
+    hubConnection.On<string, string>("MiniSplitReceiveStatusUpdate", (user, message) =>
+    {
+      Console.WriteLine($"📨 [SignalR] {user}: {message}");
+    });
+
+    // Connection lifecycle handlers
+    hubConnection.Closed += async (error) =>
+    {
+      errorMessage = $"Connection closed: {error?.Message}";
+      StateHasChanged();
+      await Task.Delay(5000);
+      try
+      {
+        await hubConnection.StartAsync();
+        errorMessage = null;
+      }
+      catch (Exception ex)
+      {
+        errorMessage = $"Reconnect failed: {ex.Message}";
+      }
+      StateHasChanged();
+    };
+
+    hubConnection.Reconnecting += (error) =>
+    {
+      errorMessage = $"Reconnecting: {error?.Message}";
+      StateHasChanged();
+      return Task.CompletedTask;
+    };
+
+    hubConnection.Reconnected += (connectionId) =>
+    {
+      errorMessage = null;
+      StateHasChanged();
+      return Task.CompletedTask;
+    };
+
+    try
+    {
+      await hubConnection.StartAsync();
+      Console.WriteLine("✅ SignalR connection established.");
+    }
+    catch (Exception ex)
+    {
+      errorMessage = $"Failed to connect: {ex.Message}";
+      Console.Error.WriteLine(errorMessage);
+      throw;
+    }
+
+    StateHasChanged();
+  }
+
+
+  private string FormatStatus()
+  {
+    if (MiniSplitStatus is null)
+      return "Status: Unknown";
+
+    if (!MiniSplitStatus.Switch)
+      return "Status: Off";
+
+    string mode = MiniSplitStatus.Mode.ToString().ToUpperInvariant();
+    string setTemp = $"{MiniSplitStatus.TempSetF / 10.0:F1}°F";
+    string currentTemp = $"{MiniSplitStatus.TempCurrentF:F1}°F";
+
+    return $"Status: On – {mode} – Set Temp: {setTemp} – Inside: {currentTemp}";
+  }
+
+  public async ValueTask DisposeAsync()
+  {
+    if (hubConnection is not null)
+      await hubConnection.DisposeAsync();
+  }
+}

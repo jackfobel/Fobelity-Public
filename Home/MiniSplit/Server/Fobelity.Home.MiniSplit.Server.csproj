@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Fobelity.Home.MiniSplit.Server</AssemblyName>
+    <RootNamespace>Fobelity.Home.MiniSplit.Server</RootNamespace>
+    <BlazorWebAssemblyLoadBootResources>true</BlazorWebAssemblyLoadBootResources>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Client\Fobelity.Home.MiniSplit.Client.csproj" />
+		<ProjectReference Include="..\Shared\Fobelity.Home.MiniSplit.Shared.csproj" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <BlazorWebAssemblyLazyLoad Include="wwwroot" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+		<PackageReference Include="Azure.AI.Agents.Persistent" Version="1.2.0-beta.1" />
+		<PackageReference Include="Azure.AI.OpenAI" Version="2.2.0-beta.5" />
+		<PackageReference Include="Azure.AI.Projects" Version="1.0.0-beta.10" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="9.0.7" NoWarn="NU1605" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="9.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="9.0.7" />
+		<PackageReference Include="Microsoft.Identity.Web.GraphServiceClient" Version="3.11.0" />
+		<PackageReference Include="Microsoft.Identity.Web" Version="3.11.0" />
+		<PackageReference Include="Microsoft.Identity.Web.UI" Version="3.11.0" />
+		<PackageReference Include="Microsoft.Kiota.Abstractions" Version="2.0.0" />
+		<PackageReference Include="Microsoft.SemanticKernel.Core" Version="1.77.0" />
+		<PackageReference Include="ModelContextProtocol" Version="0.3.0-preview.3" />
+		<PackageReference Include="ModelContextProtocol.AspNetCore" Version="0.3.0-preview.3" />
+		<PackageReference Include="ModelContextProtocol.Core" Version="0.3.0-preview.3" />
+		<PackageReference Include="MudBlazor" Version="8.10.0" />
+		<PackageReference Include="MudBlazor.ThemeManager" Version="3.0.0" />
+		<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders" Version="1.0.0-preview.1" />
+		<PackageReference Include="NetEscapades.AspNetCore.SecurityHeaders.TagHelpers" Version="1.0.0-preview.1" />
+		<PackageReference Include="OpenTelemetry.Api" Version="1.16.0" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="System.Private.Uri" Version="4.3.2" />
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.9" />
+		<PackageReference Include="System.Text.Json" Version="10.0.9" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,34 @@
+@page "/User"
+
+@attribute [Authorize(Roles = "MiniSplit.UserAccess")]
+
+
+<PageTitle>User</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true">Mini-Split Cloud Services!</MudText>
+
+<MudText Class="mb-8">
+
+  <CascadingAuthenticationState>
+    <AuthorizeView Roles="MiniSplit.UserAccess">
+      <Authorized Context="auth">
+        @if (auth?.User?.Identity?.IsAuthenticated == true)
+        {
+          <p>Welcome @auth.User.Identity.Name!</p>
+          <br />
+         @*  @foreach (var claim in auth.User.Claims)
+          {
+            <p>@claim.Type: @claim.Value</p>
+          } *@
+        }
+        else
+        {
+          <p>User authenticated, but no identity found.</p>
+        }
+      </Authorized>
+    </AuthorizeView>
+  </CascadingAuthenticationState>
+
+
+</MudText>
+

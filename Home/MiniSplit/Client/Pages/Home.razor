@@ -1,0 +1,49 @@
+@page "/"
+@using Fobelity.Home.MiniSplit.Client.Components
+@using Fobelity.Home.MiniSplit.Client.Shared
+
+@attribute [Authorize(Roles = "MiniSplit.UserAccess")]
+
+<PageTitle>Home</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true">Mini-Split Cloud Services!</MudText>
+
+<MudText Class="mb-8">
+
+  <AuthorizeView Roles="MiniSplit.UserAccess">
+    <Authorized Context="auth">
+      @if (auth?.User?.Identity?.IsAuthenticated == true)
+      {
+
+        <p>Welcome @auth.User.Identity.Name!</p>
+        <br />
+
+        
+@*         <p>Authenticated: @auth.User.Identity.IsAuthenticated</p>
+        <p>Auth Type: @auth.User.Identity.AuthenticationType</p>
+
+        <ul>
+          @foreach (var claim in auth.User.Claims)
+          {
+            <li>@claim.Type = @claim.Value</li>
+          }
+        </ul> *@
+
+        <MudExpansionPanels>
+          <MudExpansionPanel Expanded="true">
+            <FoundryDemoOverview />
+          </MudExpansionPanel>
+        </MudExpansionPanels>
+
+      }
+      else
+      {
+        <p>User authenticated, but no identity found.</p>
+      }
+    </Authorized>
+    <NotAuthorized>
+      <p>Not authenticated</p>
+    </NotAuthorized>
+  </AuthorizeView>
+
+</MudText>

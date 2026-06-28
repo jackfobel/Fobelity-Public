@@ -1,0 +1,46 @@
+@using System.Net.Http.Json
+@using Fobelity.Home.MiniSplit.Domain.Chat.Models
+@inject HttpClient Http
+
+<div class="chat-container">
+  <div class="chat-history">
+    @foreach (var message in Messages)
+    {
+      <div class="@(message.IsUser ? "user-message" : "bot-message")">@message.Text</div>
+    }
+  </div>
+
+  <div class="chat-input">
+    <input @bind="CurrentInput" @bind:event="oninput" @onkeypress="HandleKeyPress" placeholder="Type a message..." />
+    <button @onclick="SendMessage">Send</button>
+  </div>
+</div>
+
+@code {
+  private List<ChatMessage> Messages = new();
+  private string CurrentInput = "";
+
+  private async Task SendMessage()
+  {
+    if (string.IsNullOrWhiteSpace(CurrentInput)) return;
+
+    Messages.Add(new ChatMessage { Text = CurrentInput, IsUser = true });
+    var userInput = CurrentInput;
+    CurrentInput = "";
+
+    // Simulate AI or call your API
+    await Task.Delay(300); // placeholder delay
+    var botResponse = $"Echo: {userInput}";
+
+    Messages.Add(new ChatMessage { Text = botResponse, IsUser = false });
+  }
+
+  private async Task HandleKeyPress(KeyboardEventArgs e)
+  {
+    if (e.Key == "Enter")
+    {
+      await SendMessage();
+    }
+  }
+
+}

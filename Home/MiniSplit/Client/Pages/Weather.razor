@@ -1,0 +1,60 @@
+@page "/weather"
+
+@attribute [Authorize(Roles = "MiniSplit.UserAccess")]
+
+
+<PageTitle>Weather</PageTitle>
+
+<MudText Typo="Typo.h4" GutterBottom="true">Weather</MudText>
+<MudText Typo="Typo.subtitle1" GutterBottom="true">This component demonstrates showing data.</MudText>
+
+@if (!IsInitialized || weatherResponse == null)
+{
+  <MudProgressCircular Color="Color.Primary" />
+}
+else
+{
+  <MudPaper Elevation="3" Class="pa-4">
+    <MudGrid>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Location:</b> @weatherResponse?.Name</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Temperature:</b> @weatherResponse?.Main?.Temp °F</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Feels Like:</b> @weatherResponse?.Main?.FeelsLike °F</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Min Temperature:</b> @weatherResponse?.Main?.TempMin °F</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Max Temperature:</b> @weatherResponse?.Main?.TempMax °F</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Pressure:</b> @weatherResponse?.Main?.Pressure hPa</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Humidity:</b> @weatherResponse?.Main?.Humidity %</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Wind Speed:</b> @weatherResponse?.Wind?.Speed mph</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Wind Direction:</b> @weatherResponse?.Wind?.Deg °</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Cloudiness:</b> @weatherResponse?.Clouds?.All %</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Visibility:</b> @weatherResponse?.Visibility m</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Sunrise:</b> @DateTimeOffset.FromUnixTimeSeconds(weatherResponse.Sys.Sunrise).ToLocalTime()</MudText>
+      </MudItem>
+      <MudItem xs="12" sm="6">
+        <MudText><b>Sunset:</b> @DateTimeOffset.FromUnixTimeSeconds(weatherResponse.Sys.Sunset).ToLocalTime()</MudText>
+      </MudItem>
+    </MudGrid>
+  </MudPaper>
+}

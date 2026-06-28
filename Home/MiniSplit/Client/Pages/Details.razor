@@ -1,0 +1,59 @@
+@page "/details"
+
+@attribute [Authorize(Roles = "MiniSplit.UserAccess")]
+
+<PageTitle>Device Details</PageTitle>
+
+
+<MudCard Class="mt-4 mx-auto" MaxWidth="500px" Elevation="4">
+  <MudCardHeader>
+    <MudText Typo="Typo.h6">Mini-Split Device Details</MudText>
+  </MudCardHeader>
+
+  <MudCardContent>
+
+    @if (!IsInitialized || MiniSplitDetails == null)
+    {
+      <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else if (MiniSplitDetails == null)
+    {
+      <MudText Color="Color.Error">Failed to load device details.</MudText>
+    }
+    else
+    {
+      <MudGrid Class="mt-4" GutterSize="2">
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Custom Name:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.CustomName</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Category:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.Category</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Model:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.Model</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Product Name:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.ProductName</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">IP Address:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.Ip</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Latitude:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.Lat</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Longitude:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.Lon</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Is Online:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@(MiniSplitDetails.result.IsOnline ? "Yes" : "No")</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Time Zone:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.TimeZone</MudText></MudItem>
+
+        <MudItem xs="6"><MudText Typo="Typo.subtitle2">Update Time:</MudText></MudItem>
+        <MudItem xs="6"><MudText>@MiniSplitDetails.result.UpdateTime</MudText></MudItem>
+      </MudGrid>
+    }
+
+  </MudCardContent>
+</MudCard>

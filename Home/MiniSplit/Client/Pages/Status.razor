@@ -1,0 +1,89 @@
+@page "/status"
+
+@attribute [Authorize(Roles = "MiniSplit.UserAccess")]
+
+
+<PageTitle>Status</PageTitle>
+
+  @* <CascadingAuthenticationState> *@
+@* 
+  <AuthorizeView>
+    <Authorized>
+      <p>Status.razor: Welcome, @context.User.Identity.Name!</p>
+    </Authorized>
+    <NotAuthorized>
+      <p>You are not logged in.</p>
+      <a href="authentication/login">Click here to login</a>
+    </NotAuthorized>
+  </AuthorizeView> *@
+
+  @*   <AuthorizeView Roles="MiniSplit.UserAccess">
+      <Authorized Context="auth"> *@
+
+      <MudCard Class="mt-4 mx-auto" MaxWidth="500px" Elevation="4">
+      <MudCardHeader>
+        <MudText Typo="Typo.h6">Mini-Split Status</MudText>
+      </MudCardHeader>
+
+      <MudCardContent>
+
+        @if (!IsInitialized || MiniSplitStatus == null)
+        {
+          <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+        }
+        else
+        {
+          <MudGrid Class="mt-4" GutterSize="2">
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Status:</MudText></MudItem>
+            <MudItem xs="6">
+              <MudText Style="@($"color:{(IsMiniSplitRunning ? "#43a047" : "#424242")};")">
+                @(IsMiniSplitRunning ? "Running" : "Stopped")
+              </MudText>
+            </MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Switch is:</MudText></MudItem>
+            <MudItem xs="6"><MudText>@(MiniSplitStatus.Switch ? "Turned On" : "Turned Off")</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Mode:</MudText></MudItem>
+            <MudItem xs="6"><MudText>@MiniSplitStatus?.Mode.ToString()</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Temp Inside Shop (F):</MudText></MudItem>
+            <MudItem xs="6"><MudText>@MiniSplitStatus?.TempCurrentF.ToString() F</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">HVAC Set at Temp (F):</MudText></MudItem>
+            <MudItem xs="6"><MudText>@(MiniSplitStatus?.TempSetF / 10) F</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2"><br/></MudText></MudItem>
+            <MudItem xs="6"><MudText><br /></MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Temp Set:</MudText></MudItem>
+            <MudItem xs="6"><MudText>@MiniSplitStatus?.TempSet.ToString()</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Temp Current:</MudText></MudItem>
+            <MudItem xs="6"><MudText>@MiniSplitStatus?.TempCurrent.ToString()</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Humidity:</MudText></MudItem>
+            <MudItem xs="6"><MudText>@MiniSplitStatus?.HumidityCurrent.ToString()</MudText></MudItem>
+
+            <MudItem xs="6"><MudText Typo="Typo.subtitle2">Temp Unit Convert:</MudText></MudItem>
+            <MudItem xs="6"><MudText>@MiniSplitStatus?.TempUnitConvert.ToString()</MudText></MudItem>
+          </MudGrid>
+
+        }
+      </MudCardContent>
+
+      <MudCardActions Class="d-flex justify-end">
+        @if (IsMiniSplitRunning)
+        {
+          <MudButton Color="Color.Error" Variant="Variant.Filled" OnClick="TurnOffDevice">Turn Off</MudButton>
+        }
+        else
+        {
+          <MudButton Color="Color.Success" Variant="Variant.Filled" OnClick="TurnOnDevice">Turn On</MudButton>
+        }
+      </MudCardActions>
+      </MudCard>
+@* 
+    </Authorized>
+  </AuthorizeView> *@
+@* </CascadingAuthenticationState> *@

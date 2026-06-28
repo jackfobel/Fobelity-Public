@@ -1,0 +1,113 @@
+# ----------------------------------------------------------------------
+# Public repo safety exclusions
+# ----------------------------------------------------------------------
+
+# Git / IDE / build output
+.git/
+.vs/
+.vscode/
+bin/
+obj/
+publish/
+artifacts/
+TestResults/
+
+# Node / React / front-end generated dependencies
+node_modules/
+react/node_modules/
+**/node_modules/
+**/dist/
+**/build/
+
+# Runtime output / captured media / logs
+logs/
+captures/
+Pics/
+archive/
+*.log
+*.tmp
+
+# Local machine / deployment scripts
+Publish-*.ps1
+new-automation.ps1
+*.pubxml
+*.pubxml.user
+*.publishsettings
+
+# Local launch/debug settings
+**/launchSettings.json
+*.suo
+*.user
+*.rsuser
+
+# App/runtime configuration - keep appsettings.example.json instead
+**/appsettings.json
+**/appsettings.*.json
+!**/appsettings.example.json
+!**/appsettings.Development.example.json
+
+# Azure Functions / local emulator config
+**/local.settings.json
+**/serviceDependencies.local.json
+
+# Environment / secret files
+.env
+.env.*
+*.secrets.json
+secrets.json
+secrets.*.json
+**/secrets/
+**/secrets.dev.yaml
+
+# Certificates / keys / tokens
+*.pfx
+*.p12
+*.pem
+*.key
+*.cer
+*.crt
+*.jks
+*.keystore
+
+# Private model/media assets that may embed local paths or private data
+*.fbx
+*.glb
+*.gltf
+*.blend
+*.wav
+*.mp3
+*.mp4
+*.mov
+*.avi
+*.jpg
+*.jpeg
+*.png
+
+# HTTP scratch/test files can contain tokens or private endpoints
+*.http
+
+# More public-repo safety exclusions
+
+# Local MCP / tool manifests can contain absolute machine paths
+**/mcp.json
+!**/mcp.example.json
+
+# Visual Studio / Azure service dependency metadata
+**/Properties/serviceDependencies.json
+**/Properties/serviceDependencies.*.json
+
+# ASP.NET/Data Protection/local encryption keys
+**/keys/
+keys/
+*.xml.key
+
+# Custom wake-word / model artifacts
+Home/Models/
+**/*.table
+
+# Keep third-party generated SDK bundles out unless you intentionally want them
+Home/Avatar/Server/wwwroot/lib/speech/Home/MiniSplit/Client/wwwroot/avatar-island/assets/
+
+# Generated / third-party frontend bundles
+Home/Avatar/Server/wwwroot/lib/speech/
+Home/MiniSplit/Client/wwwroot/avatar-island/assets/

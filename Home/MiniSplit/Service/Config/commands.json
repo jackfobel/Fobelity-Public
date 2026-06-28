@@ -1,0 +1,28 @@
+{
+  "Commands": [
+    {
+      "name": "GetDeviceStatus",
+      "url": "/v1.0/iot-03/devices/{deviceId}/status",
+      "method": "GET",
+      "description": "Retrieve the status of the device."
+    },
+    {
+      "name": "GetDeviceDetails",
+      "url": "/v2.0/cloud/thing/{deviceId}",
+      "method": "GET",
+      "description": "Retrieve the details of the device."
+    },
+    {
+      "name": "GetDeviceFunctions",
+      "url": "/v1.0/devices/{device_id}/functions",
+      "method": "GET",
+      "description": "Retrieve the functions of the device."
+    },
+    {
+      "name": "SendDeviceAction",
+      "url": "/v1.0/devices/{deviceId}/commands",
+      "method": "POST",
+      "description": "Send an action to the device like turn on or turn off."
+    }
+  ]
+}

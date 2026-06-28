@@ -1,0 +1,112 @@
+@using Fobelity.Home.MiniSplit.Domain.Chart.Models
+<MudStack Spacing="2">
+  <MudText Typo="Typo.subtitle2">Average / Max Temperatures (°F)</MudText>
+  <MudChart ChartType="ChartType.Line"
+            ChartSeries="@TempSeries"
+            XAxisLabels="@XAxisLabels"
+            Width="100%"
+            Height="220"
+            ChartOptions="@tempOptions" />
+
+  <MudDivider Class="my-4" />
+
+  <MudText Typo="Typo.subtitle2">Energy Cost ($)</MudText>
+  <MudChart ChartType="ChartType.Line"
+            ChartSeries="@CostSeries"
+            XAxisLabels="@XAxisLabels"
+            Width="100%"
+            Height="220"
+            ChartOptions="@costOptions" />
+
+  <MudText Typo="Typo.subtitle2" Class="mt-4">Energy Used (kWh)</MudText>
+  <MudChart ChartType="ChartType.Bar"
+            ChartSeries="@KwhSeries"
+            XAxisLabels="@XAxisLabels"
+            Width="100%"
+            Height="220"
+            ChartOptions="@kwhOptions" />
+</MudStack>
+
+@code {
+  private ChartOptions tempOptions = new();
+  private ChartOptions costOptions = new();
+  private ChartOptions kwhOptions = new();
+
+  private List<ChartSeries> TempSeries = new();
+  private List<ChartSeries> CostSeries = new();
+  private List<ChartSeries> KwhSeries = new();
+
+  private string[] XAxisLabels = Array.Empty<string>();
+
+  [Parameter] public List<DailyChartData> ChartData { get; set; } = new();
+
+  protected override void OnInitialized()
+  {
+    var interpolation = ChartData.Count >= 4
+      ? InterpolationOption.NaturalSpline
+      : InterpolationOption.Straight;
+
+    tempOptions.InterpolationOption = interpolation;
+    costOptions.InterpolationOption = interpolation;
+    kwhOptions.InterpolationOption = InterpolationOption.Straight;
+
+    // Formats
+    tempOptions.YAxisFormat = "0";
+    costOptions.YAxisFormat = "$0.00";
+    kwhOptions.YAxisFormat = "0.0";
+
+    // More Y ticks (supported in recent MudBlazor versions)
+    tempOptions.YAxisTicks = 10; // temps every 10°
+    costOptions.YAxisTicks = 2;  // denser cost ticks
+    kwhOptions.YAxisTicks = 10;
+
+    if (ChartData?.Any() == true)
+    {
+      XAxisLabels = ChartData.Select(x => x.Date.ToString("MMM dd")).ToArray();
+
+      // Temps with markers
+      TempSeries = new()
+      {
+        new ChartSeries
+        {
+          Name = "Threshold Cool (°F)",
+          Data = ChartData.Select(x => x.ThresholdCool ?? 0).ToArray(),
+          ShowDataMarkers = true
+        },
+        new ChartSeries
+        {
+          Name = "Max Outside Temp (°F)",
+          Data = ChartData.Select(x => x.MaxOutsideTempF ?? 0).ToArray(),
+          ShowDataMarkers = true
+        },
+        new ChartSeries
+        {
+          Name = "Max Inside Temp (°F)",
+          Data = ChartData.Select(x => x.MaxInsideTempF ?? 0).ToArray(),
+          ShowDataMarkers = true
+        }
+      };
+
+      // Cost with markers
+      CostSeries = new()
+      {
+        new ChartSeries
+        {
+          Name = "Energy Cost ($)",
+          Data = ChartData.Select(x => x.TotalCostUSD ?? 0).ToArray(),
+          ShowDataMarkers = true
+        }
+      };
+
+      // kWh (bar – markers not used)
+      KwhSeries = new()
+      {
+        new ChartSeries
+        {
+          Name = "kWh Used",
+          Data = ChartData.Select(x => x.TotalKWhUsed ?? 0).ToArray()
+        }
+      };
+    }
+  }
+}

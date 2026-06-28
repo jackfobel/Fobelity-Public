@@ -1,0 +1,98 @@
+@using MudBlazor
+
+<MudContainer MaxWidth="MaxWidth.Large">
+  <MudPaper Class="pa-6" Elevation="1">
+
+    <MudText Typo="Typo.h4" GutterBottom="true">🧠 AI-Powered Automation with Azure AI Foundry + Blazor + API Integration</MudText>
+    <MudText Typo="Typo.subtitle1" GutterBottom="true">A Real-Time Demo of Smart HVAC Control Using Agents and Tools</MudText>
+    <MudText Typo="Typo.caption">By Jack A. Fobel – August 2025</MudText>
+    <MudDivider Class="my-4" />
+
+    <MudExpansionPanels Elevation="0">
+
+      <MudExpansionPanel Text="💡 The Problem We're Solving">
+        <MudText Typo="Typo.body2">• Need for intelligent, real-time control over HVAC systems (e.g., mini-split)</MudText>
+        <MudText Typo="Typo.body2">• Manual configuration is inefficient and lacks automation</MudText>
+        <MudText Typo="Typo.body2">• Lack of user-friendly interfaces for AI-triggered control</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🚀 The Vision">
+        <MudText Typo="Typo.body2">• Use Azure AI Foundry Agents to act on natural language input</MudText>
+        <MudText Typo="Typo.body2">• Integrate with Blazor for a rich front-end</MudText>
+        <MudText Typo="Typo.body2">• Real-time control via secure API endpoints</MudText>
+        <MudText Typo="Typo.body2">• Enable tool-calling for structured actions based on user queries</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🧠 Architecture Overview">
+        <MudText Typo="Typo.body1" GutterBottom="true">Components:</MudText>
+        <MudText Typo="Typo.body2">• User → Blazor (WASM + Server)</MudText>
+        <MudText Typo="Typo.body2">• Blazor → API Controller (MiniSplitControlService)</MudText>
+        <MudText Typo="Typo.body2">• API secured with Entra ID / JWT</MudText>
+        <MudText Typo="Typo.body2">• Foundry Agent calling OpenAPI-defined tool (e.g., automate, getStatus)</MudText>
+        <MudText Typo="Typo.body2">• Real-time updates via SignalR</MudText>
+        <MudText Typo="Typo.caption" Class="mt-2">Flow: Input → Agent → Tool → API → Device → Feedback</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="⚙️ How It Works: Foundry Agent">
+        <MudText Typo="Typo.body2">• Configured with tool schema (OpenAPI 3.0.4)</MudText>
+        <MudText Typo="Typo.body2">• Examples: automate, get-status, turn-on, turn-off</MudText>
+        <MudText Typo="Typo.body2">• Agent uses Model Context Protocol (MCP) to call tools</MudText>
+        <MudText Typo="Typo.body2">• Returns JSON, optionally wrapped in [START_TABLE] / [END_TABLE]</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="⚙️ How It Works: API Integration">
+        <MudText Typo="Typo.body2">• ASP.NET Core Controller with endpoints (e.g., POST /automate)</MudText>
+        <MudText Typo="Typo.body2">• Role-based authorization: MiniSplit.Controller, MiniSplit.Scheduler</MudText>
+        <MudText Typo="Typo.body2">• Returns structured telemetry: temp, humidity, runtime, etc.</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🖥️ Blazor UI">
+        <MudText Typo="Typo.body2">• Hybrid (Server + WASM)</MudText>
+        <MudText Typo="Typo.body2">• MSAL-based Entra ID authentication</MudText>
+        <MudText Typo="Typo.body2">• SignalR for real-time updates</MudText>
+        <MudText Typo="Typo.body2">• Chat UI for agent interaction</MudText>
+        <MudText Typo="Typo.body2">• Status bar, config page, telemetry dashboard</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🧪 Live Demo Plan">
+        <MudText Typo="Typo.body2">• Ask AI: “What’s the current HVAC status?”</MudText>
+        <MudText Typo="Typo.body2">• Agent → Tool → Controller → Live Data</MudText>
+        <MudText Typo="Typo.body2">• Blazor renders table using [START_TABLE]...</MudText>
+        <MudText Typo="Typo.body2">• Click “Automate” → triggers backend rule engine</MudText>
+        <MudText Typo="Typo.body2">• Show real-time SignalR status updates</MudText>
+        <MudText Typo="Typo.body2">• Optional: Test API with Postman, Swagger</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🔐 Security + Auth">
+        <MudText Typo="Typo.body2">• Azure Entra ID (Microsoft Identity)</MudText>
+        <MudText Typo="Typo.body2">• API protected using JWTs</MudText>
+        <MudText Typo="Typo.body2">• Blazor role-based access: UserAccess, Controller, Scheduler</MudText>
+        <MudText Typo="Typo.body2">• Managed Identity or Service Principal for trusted services</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="📊 Telemetry & Logging">
+        <MudText Typo="Typo.body2">• Azure Table Storage for runtime logs</MudText>
+        <MudText Typo="Typo.body2">• Fields: runtime duration, trigger rule, thresholds</MudText>
+        <MudText Typo="Typo.body2">• Optional: email reports, daily summaries</MudText>
+        <MudText Typo="Typo.body2">• Future: AI-powered forecasting, weather insights</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🧭 Roadmap">
+        <MudText Typo="Typo.body2">• More tools: forecast, adjust-temperature, etc.</MudText>
+        <MudText Typo="Typo.body2">• Voice input (mobile, Raspberry Pi)</MudText>
+        <MudText Typo="Typo.body2">• Enhanced UI: charts, logs, rule editor</MudText>
+        <MudText Typo="Typo.body2">• User-specific preferences and context</MudText>
+      </MudExpansionPanel>
+
+      <MudExpansionPanel Text="🏁 Summary & Q&A">
+        <MudText Typo="Typo.body2">• Natural language control of devices</MudText>
+        <MudText Typo="Typo.body2">• Secure API integration</MudText>
+        <MudText Typo="Typo.body2">• Smart automation with Azure AI Foundry Agents</MudText>
+        <MudText Typo="Typo.body2">• Real-time feedback via SignalR</MudText>
+        <MudText Typo="Typo.body2">• Open to questions and discussion</MudText>
+      </MudExpansionPanel>
+
+    </MudExpansionPanels>
+
+  </MudPaper>
+</MudContainer>

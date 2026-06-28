@@ -1,0 +1,29 @@
+@page "/avatar"
+@using Fobelity.Home.MiniSplit.Client.Shared
+@layout EmptyLayout
+@inject IJSRuntime JS
+@inject NavigationManager Nav
+
+<div id="avatar-root" style="width:100vw;height:100vh;background:#0b0b0b;"></div>
+
+@code {
+  protected override async Task OnAfterRenderAsync(bool firstRender)
+  {
+    if (!firstRender) return;
+
+    // Use your Server hub in dev (this becomes an absolute URL)
+    //var hubUrl = Nav.ToAbsoluteUri("/unifiedHub").ToString();
+    //var hubUrl = "https://localhost:5100/unifiedHub";
+    var hubUrl = "https://localhost:5002/unifiedhub";
+
+    await JS.InvokeVoidAsync(
+        "mountAvatar",
+        "avatar-root",
+        new
+        {
+          hubUrl,
+          avatarUrl = "/avatar-island/avatars/rpm-mocha.glb" // from island/public/avatars
+        }
+    );
+  }
+}
