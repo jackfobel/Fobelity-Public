@@ -18,6 +18,14 @@ This public repository is a sanitized portfolio version of a personal Applied AI
 
 ---
 
+## Demos - Need Sound
+
+- [Turn on the lights in the shop](https://1drv.ms/v/c/1c8311ddba5e908b/IQBppZoeMYkYQZDilW4MFSP5Aea9x4T80fFVJ_Aa8R0z0N0?e=66VafI)
+- [Turn on the the mini-split in the shop](https://1drv.ms/v/c/1c8311ddba5e908b/IQDqZoFtnSjPTYXwf5s__1HsAX27XGYqJjLRexAHAPLUloE?e=cyM4at)
+- [Mocha capabilities](https://1drv.ms/v/c/1c8311ddba5e908b/IQDusLakuRL_SpOftswYb8LDARehnG6cr5XlUJ3K1c3sc-s?e=qYseqn) older/latency
+
+---
+
 ## Example Interaction
 
 At a high level, Mocha turns this interaction:
