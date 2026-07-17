@@ -1,4 +1,4 @@
-# Mocha — Copilot-Style Azure AI Edge Assistant for Home Automation
+# Mocha — Copilot-Style Applied Azure AI Platform & Edge Assistant for Home Automation
 
 **A multimodal Applied AI system built with Azure AI Foundry, .NET on Linux and Windows, Raspberry Pi edge hardware, Azure Speech, Azure Face / Azure AI Vision, WebGL avatar rendering, agent orchestration, and real-world home automation.**
 
@@ -26,9 +26,28 @@ This public repository is a sanitized portfolio version of a personal Applied AI
 
 ---
 
-## Photos
+## Photos & Hardware
+
+The Shop
 
 <img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/a9058e0c-33a5-4484-ad8c-5f1bf1a888a6" />
+
+A raspberry Pi 5 (and case), speaker, microphone, breadboard, usb hub, camera, cables, etc.
+
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/205c9dad-50a2-4241-99ad-45ae35e2629a" />
+
+Finally put a monitor in the shop for a good dry and live run…
+
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/9e6c18b4-a77c-4bec-881f-b059f3c92252" />
+
+The most interesting part because I had to actually run 110/120 volt wire to connect things. Stuff got real here.
+
+<img width="1394" height="1842" alt="image" src="https://github.com/user-attachments/assets/959743ad-ddfd-4615-be42-b88f8b35ddec" />
+
+Residential electrical really isn't that hard. Here's a book with lots of pictures…
+
+<img width="1411" height="177" alt="image" src="https://github.com/user-attachments/assets/86bfb6d4-c07d-470e-a3aa-902d84e4c338" />
+
 
 ## Example Interaction
 
