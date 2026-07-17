@@ -26,6 +26,10 @@ This public repository is a sanitized portfolio version of a personal Applied AI
 
 ---
 
+## Photos
+
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/a9058e0c-33a5-4484-ad8c-5f1bf1a888a6" />
+
 ## Example Interaction
 
 At a high level, Mocha turns this interaction:
