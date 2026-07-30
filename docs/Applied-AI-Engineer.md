@@ -73,6 +73,8 @@ The engineer is responsible for turning AI capabilities into usable systems by:
 
 The Mocha project demonstrates these Applied AI Engineer capabilities through a functioning Copilot-style assistant for a physical environment.
 
+[Click here to learn more about 'mocha' and watch a few demos.](https://github.com/jackfobel/Fobelity-Public/)
+
 ### Multimodal AI
 
 Mocha combines:
