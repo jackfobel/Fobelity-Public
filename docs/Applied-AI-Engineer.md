@@ -6,6 +6,8 @@ Pursue an Applied AI Engineer position at Microsoft focused on designing, buildi
 
 This role sits at the intersection of software engineering, cloud architecture, and artificial intelligence. It is less focused on training foundational machine-learning models and more focused on applying models and AI services to solve real business and operational problems through reliable production systems.
 
+[Skip all this, I want to see the demos!](https://github.com/jackfobel/Fobelity-Public/)
+
 ## Role Summary
 
 An Applied AI Engineer designs and implements intelligent applications that combine large language models, agents, enterprise data, APIs, automation tools, and user-facing experiences.
