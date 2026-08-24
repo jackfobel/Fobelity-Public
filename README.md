@@ -26,6 +26,131 @@ This public repository is a sanitized portfolio version of a personal Applied AI
 
 ---
 
+## *** New *** Additions
+
+Recent enhancements expand Mocha from a conversational home-automation assistant into a more complete applied AI engineering platform. These additions strengthen durable preferences, environmental awareness, tool execution, diagnostics, observability, and edge-to-cloud orchestration.
+
+### Durable Rules and Preferences
+
+- Added `remember_rule`, `edit_rule`, and `forget_rule` tools for managing durable standing preferences.
+- Rules are stored in a file-backed `UserRuleStore`.
+- Saved rules are injected into each model prompt so Mocha can consistently apply preferences during reasoning.
+- Example: When cooling the shop on a hot day, use 61°F as the preferred default setpoint.
+
+### Environment-Aware Automation
+
+- Added day/night awareness through the `IsDarkOutside` signal.
+- Ambient events now include whether it is currently dark outside.
+- Mocha can use this context when deciding whether to turn on shop lighting during a first-entry event.
+- Motion cooldown and model reasoning help reduce repeated light commands, although deterministic duplicate-signal suppression remains future work.
+
+### Indoor and Outdoor Temperature Awareness
+
+- Added `outside_weather_query` for current outdoor temperature, humidity, and weather conditions.
+- Added access to indoor shop and house conditions through `shop_status_query` and `get_house_state`.
+- Mocha can now compare indoor and outdoor conditions when reasoning about comfort and HVAC actions.
+
+### Device-State Caching
+
+- Added `DeviceStatusCache` for MiniSplit and thermostat status.
+- Uses a short eight-second time-to-live to reduce repeated calls to slower HVAC services.
+- Cached state is invalidated after every device write.
+- Lighting state is intentionally queried live rather than cached to avoid stale light status.
+
+### Conversation Context
+
+- Added `MochaConversationStore` for maintaining conversation context in the orchestration service.
+- Conversation state is stored in an in-process concurrent dictionary on the shop computer.
+- The Raspberry Pi relays voice and ambient events but does not store the conversation itself.
+- Current conversation state resets when the orchestration process restarts.
+
+### Weather Tool Integration
+
+- Added current weather conditions as an external tool available to Mocha.
+- Mocha can use outside weather information when answering questions or making environmental decisions.
+- Severe-weather alerts and unsolicited proactive announcements remain separate future enhancements.
+
+### Verified Device Actions
+
+- Added mechanical post-action verification for lighting and MiniSplit commands.
+- After executing `lights_set` or `minisplit_set`, Mocha rechecks the actual device state.
+- Tool responses now report verified outcomes instead of returning only an optimistic command acknowledgment.
+
+### Structured Ambient Events
+
+- Expanded ambient events into structured `MochaEventContext` objects.
+- Person-entry events can include:
+  - Identified person
+  - Detection confidence
+  - Location
+  - Event time
+  - Shop temperature
+  - Lighting state
+  - MiniSplit state
+  - Day/night status
+- This gives the model richer context for deciding whether an action is appropriate.
+
+### Free-Form Intent Understanding
+
+- Voice requests are routed through the complete model reasoning loop as `user_message` events.
+- Mocha can interpret natural expressions instead of requiring rigid commands.
+- Example requests include:
+  - "It's hot in here."
+  - "I'm done for the night."
+  - "I'm going to work at the bench."
+
+### Working Conversation Memory
+
+- Maintains recent conversation and tool-call history for short-term reasoning.
+- The current implementation retains up to 40 messages, including tool-call data.
+- A more compact activity-summary format remains part of the planned durable-events work.
+
+### Read-Only State and Telemetry Tools
+
+- Added `get_house_state` for retrieving current house device conditions.
+- Updated `shop_status_query` to provide shop-specific lighting and MiniSplit state.
+- The separation allows Mocha to reason independently about house and workshop environments.
+- Additional telemetry tools, such as temperature history and device activity history, remain candidates for future expansion.
+
+### Agent-Driven Diagnostics
+
+- Added `get_devicehub_health` to verify that the DeviceHub API is reachable.
+- Added `get_edge_health` to verify that the Raspberry Pi edge agent is reachable.
+- These tools allow Mocha to inspect narrowly scoped system-health information without directly modifying infrastructure.
+- Broader service diagnostics and service-restart operations remain future work requiring additional safety and approval controls.
+
+### Durable Automation Foundation
+
+- Durable rules now provide a foundation for user-defined behavioral preferences.
+- The architecture is being prepared for deterministic trigger-condition-action routines.
+- Future routines can translate natural-language requests into structured automations with explicit triggers, conditions, and tool actions.
+- This will allow automations to run independently when qualifying events occur.
+
+### Debugging and Distributed Tracing
+
+- Added orchestration tracing through Azure AI Foundry.
+- Traces provide visibility into model interactions and orchestration activity.
+- This improves troubleshooting across the cloud-hosted model, orchestration service, tools, and edge components.
+
+## Applied AI Engineering Highlights
+
+These additions demonstrate practical experience with:
+
+- Agent and tool orchestration
+- Durable preference management
+- Structured event processing
+- Environmental and device context grounding
+- Natural-language intent interpretation
+- Edge-to-cloud communication
+- Device-state caching and invalidation
+- Post-action verification
+- Read-only diagnostic tooling
+- AI system observability and tracing
+- Safety boundaries for higher-risk operations
+- Evolution from conversational assistance toward deterministic automation
+
+---
+
 ## Photos & Hardware
 
 The Shop
